@@ -1,0 +1,137 @@
+/* ============================================================================
+   LIQUID GLASS — layered on top of base/nav/sections/responsive.
+   Loaded LAST. Adds: ambient light field, translucent surfaces, floating glass
+   nav, glass controls, cursor-tracked sheen. No markup semantics changed.
+   ========================================================================== */
+
+@property --sheen{ syntax:"<number>"; inherits:false; initial-value:0; }
+
+/* ---- tokens: LIGHT ------------------------------------------------------ */
+:root,html[data-theme="light"]{
+  --gl-blur:20px; --gl-blur-sm:12px; --gl-sat:170%;
+  --gl-1:rgba(255,255,255,.48);   /* airy   */
+  --gl-2:rgba(255,255,255,.64);   /* default*/
+  --gl-3:rgba(255,255,255,.82);   /* solid  */
+  --gl-line:rgba(18,22,34,.07); --gl-line-hi:rgba(18,22,34,.11);
+  --gl-edge:rgba(255,255,255,.9); --gl-edge-b:rgba(255,255,255,.22);
+  --gl-sheen-c:255,255,255;
+  --gl-sh-1:0 1px 2px rgba(18,22,34,.04),0 8px 20px -10px rgba(18,22,34,.10);
+  --gl-sh-2:0 1px 2px rgba(18,22,34,.05),0 14px 34px -12px rgba(18,22,34,.14),0 40px 80px -40px rgba(18,22,34,.18);
+  --gl-sh-3:0 2px 4px rgba(18,22,34,.06),0 22px 50px -14px rgba(18,22,34,.18),0 60px 110px -50px rgba(18,22,34,.22);
+  --page-bg:radial-gradient(125% 95% at 12% -8%,#fcfcfe 0%,#f3f4f7 44%,#eceef2 100%);
+  --amb-1:127,182,255; --amb-2:183,165,255; --amb-3:134,227,192;
+  --amb-a1:.17; --amb-a2:.15; --amb-a3:.11;
+  --island:12,13,16; --island-a1:.88; --island-a2:.94;
+}
+/* ---- tokens: DARK ------------------------------------------------------- */
+html[data-theme="dark"]{
+  --gl-1:rgba(255,255,255,.055); --gl-2:rgba(255,255,255,.085); --gl-3:rgba(255,255,255,.12);
+  --gl-line:rgba(255,255,255,.085); --gl-line-hi:rgba(255,255,255,.16);
+  --gl-edge:rgba(255,255,255,.24); --gl-edge-b:rgba(255,255,255,.05);
+  --gl-sh-1:0 1px 2px rgba(0,0,0,.30),0 10px 24px -12px rgba(0,0,0,.5);
+  --gl-sh-2:0 1px 2px rgba(0,0,0,.34),0 18px 40px -14px rgba(0,0,0,.55),0 44px 90px -44px rgba(0,0,0,.6);
+  --gl-sh-3:0 2px 6px rgba(0,0,0,.4),0 26px 56px -16px rgba(0,0,0,.6),0 70px 120px -56px rgba(0,0,0,.7);
+  --page-bg:radial-gradient(125% 95% at 12% -8%,#15161b 0%,#0d0e11 46%,#08090b 100%);
+  --amb-a1:.16; --amb-a2:.14; --amb-a3:.10;
+  --island:255,255,255; --island-a1:.035; --island-a2:.06;
+}
+@media (prefers-color-scheme:dark){
+  html[data-theme="system"]{
+    --gl-1:rgba(255,255,255,.055); --gl-2:rgba(255,255,255,.085); --gl-3:rgba(255,255,255,.12);
+    --gl-line:rgba(255,255,255,.085); --gl-line-hi:rgba(255,255,255,.16);
+    --gl-edge:rgba(255,255,255,.24); --gl-edge-b:rgba(255,255,255,.05);
+    --gl-sh-1:0 1px 2px rgba(0,0,0,.30),0 10px 24px -12px rgba(0,0,0,.5);
+    --gl-sh-2:0 1px 2px rgba(0,0,0,.34),0 18px 40px -14px rgba(0,0,0,.55),0 44px 90px -44px rgba(0,0,0,.6);
+    --gl-sh-3:0 2px 6px rgba(0,0,0,.4),0 26px 56px -16px rgba(0,0,0,.6),0 70px 120px -56px rgba(0,0,0,.7);
+    --page-bg:radial-gradient(125% 95% at 12% -8%,#15161b 0%,#0d0e11 46%,#08090b 100%);
+    --amb-a1:.17; --amb-a2:.15; --amb-a3:.10;
+    --island:255,255,255; --island-a1:.035; --island-a2:.06;
+  }
+}
+
+/* ---- page canvas + ambient light field --------------------------------- */
+html,body{ background:var(--bg); }
+.ambient{ position:fixed; inset:-10vh -10vw; z-index:-1; pointer-events:none; overflow:hidden;
+  transform:translate3d(0,var(--amb-y,0px),0); will-change:transform; }
+.ambient i{ position:absolute; display:block; border-radius:50%; }
+.ambient .a1{ width:min(74vw,1020px); aspect-ratio:1; left:-14vw; top:-8vh;
+  background:radial-gradient(circle at 50% 50%,rgba(var(--amb-1),var(--amb-a1)) 0%,rgba(var(--amb-1),0) 66%);
+  animation:amb1 46s var(--ease) infinite alternate; }
+.ambient .a2{ width:min(66vw,900px); aspect-ratio:1; right:-12vw; top:18vh;
+  background:radial-gradient(circle at 50% 50%,rgba(var(--amb-2),var(--amb-a2)) 0%,rgba(var(--amb-2),0) 66%);
+  animation:amb2 58s var(--ease) infinite alternate; }
+.ambient .a3{ width:min(58vw,780px); aspect-ratio:1; left:26vw; bottom:-16vh;
+  background:radial-gradient(circle at 50% 50%,rgba(var(--amb-3),var(--amb-a3)) 0%,rgba(var(--amb-3),0) 68%);
+  animation:amb3 64s var(--ease) infinite alternate; }
+@keyframes amb1{ from{ transform:translate3d(-4%,-3%,0) scale(1); } to{ transform:translate3d(7%,7%,0) scale(1.14); } }
+@keyframes amb2{ from{ transform:translate3d(5%,2%,0) scale(1.08); } to{ transform:translate3d(-6%,-7%,0) scale(1); } }
+@keyframes amb3{ from{ transform:translate3d(-3%,4%,0) scale(1.04); } to{ transform:translate3d(6%,-5%,0) scale(1.16); } }
+/* ---- shared glass recipe ----------------------------------------------- */
+@media (hover:none){ .gl{ background-image:none; } }
+
+/* NAVIGATION — owned entirely by css/nav.css (ruled bar, sharp edges). */
+
+/* ======================================================== DARK ISLANDS */
+/* translucent slabs — the ambient field stays faintly visible through them */
+.work,.contact{ position:relative; overflow:hidden;
+  background:linear-gradient(180deg,rgba(var(--island),var(--island-a1)),rgba(var(--island),var(--island-a2)));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 -30px 70px -40px rgba(18,22,40,.4); }
+/* soft specular wash across the top-left of each slab */
+.work::before,.contact::before{ content:""; position:absolute; left:-10%; top:-40%;
+  width:70%; height:110%; pointer-events:none; z-index:0;
+  background:radial-gradient(closest-side,rgba(255,255,255,.055),rgba(255,255,255,0) 70%); }
+/* work rows: hairlines soften, sheen follows the cursor */
+/* ============================================================== CARDS */
+/* three transparency levels so sections don't read as one repeated rectangle */
+/* about: portrait behind glass, rows respond to hover */
+/* stats: hairline dividers stay, numbers gain a touch of air */
+/* ============================================================== BUTTONS */
+
+/* article controls */
+.art-share .sh-btn{ background:var(--gl-2); border-color:var(--gl-line);
+  box-shadow:inset 0 1px 0 var(--gl-edge); }
+.art-share .sh-btn:hover{ background:var(--fg); color:var(--bg); border-color:transparent;
+  transform:translateY(-2px); box-shadow:var(--gl-sh-1); }
+.art-share .sh-btn:active{ transform:scale(.92); }
+.art-callout,.art-nextcard{ background-color:var(--gl-2); border-color:var(--gl-line);
+  border-radius:24px;
+  box-shadow:var(--gl-sh-1),inset 0 1px 0 var(--gl-edge),inset 0 -1px 0 var(--gl-edge-b); }
+.art-nextcard{ background-image:radial-gradient(360px circle at var(--mx,50%) var(--my,0%),
+    rgba(var(--gl-sheen-c),calc(var(--sheen) * .45)) 0%,rgba(var(--gl-sheen-c),0) 72%);
+  background-repeat:no-repeat; transition:--sheen .5s var(--ease),transform .5s var(--ease-out),
+    box-shadow .5s var(--ease),background-color .4s var(--ease),border-color .4s var(--ease); }
+.art-nextcard:hover{ --sheen:1; background-color:var(--gl-3); border-color:var(--gl-line-hi);
+  transform:translateY(-5px);
+  box-shadow:var(--gl-sh-2),inset 0 1px 0 var(--gl-edge),inset 0 -1px 0 var(--gl-edge-b); }
+.art-takeaways{ background:rgba(255,255,255,.55); border-color:rgba(18,22,34,.06);
+  box-shadow:var(--gl-sh-1),inset 0 1px 0 rgba(255,255,255,.85); }
+.read-progress{ -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); }
+
+/* ============================================================== LOADER */
+/* the loader is the page canvas itself — exactly --bg, no tint, no blur */
+.loader{ background:var(--bg); }
+
+/* =========================================================== TYPOGRAPHY */
+p,.wi-desc,.jr-excerpt,.a-lead,.art-body p{ text-wrap:pretty; }
+
+/* ========================================================== RESPONSIVE */
+
+@media (max-width:600px){
+  :root{ --gl-blur:14px; --gl-blur-sm:10px; }
+  /* cheaper glass on phones: no per-element sheen, lighter blur budget */
+  .jr-item,.tool,.skill,.quote.big,.quote.small,.art-callout,.art-nextcard{ background-image:none; }
+  .tool,.skill{ background-color:rgba(var(--gl-sheen-c),.55); }
+  .work,.contact,.kinetic{ background:linear-gradient(180deg,rgba(var(--island),calc(var(--island-a1) + .04)),
+      rgba(var(--island),calc(var(--island-a2) + .03))); }
+}
+@media (max-width:600px) and (prefers-color-scheme:dark){
+  html[data-theme="system"] .tool,html[data-theme="system"] .skill{ background-color:rgba(255,255,255,.06); }
+}
+@media (max-width:600px){
+  html[data-theme="dark"] .tool,html[data-theme="dark"] .skill{ background-color:rgba(255,255,255,.06); }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .ambient i{ animation:none; }
+  .gl,.jr-item,.tool,.quote,.art-nextcard,.mail-btn{ transition:none; }
+}

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<template id="__bundler_thumbnail" data-bg-color="#f1f1f1">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#f1f1f1" />
+    <text x="80" y="380" font-family="Helvetica, Arial, sans-serif" font-size="200" font-weight="300" letter-spacing="-8" fill="#101010">Sk</text>
+    <circle cx="92" cy="470" r="22" fill="#00b512" />
+  </svg>
+</template>
+<title>Beyond Automation: Designing Workflow Orchestration — Sumanth Kunisetty</title>
+<meta name="description" content="A design perspective on building enterprise automation that stays understandable as workflows, conditions, failures, and scale become complex." />
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/glass.css" />
+<link rel="stylesheet" href="css/nav.css" />
+<link rel="stylesheet" href="css/grid.css" />
+<link rel="stylesheet" href="css/grid-levels.css" />
+<link rel="stylesheet" href="css/article.css" />
+<link rel="stylesheet" href="css/topic.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+<script>
+  (function(){try{var t=localStorage.getItem('sk-theme')||'system';
+    document.documentElement.setAttribute('data-theme',t);}catch(e){
+    document.documentElement.setAttribute('data-theme','system');}
+    /* a reading page wants quiet: no vertical rule field here */
+    document.documentElement.setAttribute('data-grid','off');})();
+</script>
+</head>
+<body>
+
+<div class="read-progress"><div class="bar" id="readBar"></div></div>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-label" id="cursorLabel">View</div>
+<div class="cursor-arrow" id="cursorArrow" aria-hidden="true">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M5 3.5 L5 18.5 L9 14.5 L12 21 L14.5 20 L11.5 13.5 L17 13.5 Z" fill="currentColor" stroke="var(--arrow-stroke,#000)" stroke-width="1.1" stroke-linejoin="round"/></svg>
+</div>
+
+<div class="scroll-rail"><div class="track"><div class="thumb" id="scrollThumb"></div></div></div>
+<div class="scroll-pct" id="scrollPct">00 — 100</div>
+
+<header class="nav">
+  <div class="nav-in">
+  <a class="brand" href="index.html" data-cursor-skip>
+    <span class="dot"></span>
+    <span>Sumanth Kunisetty</span>
+  </a>
+  <div class="nav-right">
+    <span class="nav-clock" id="clock">—</span>
+    <button class="theme-btn" id="themeBtn" data-cursor-skip aria-label="Switch color theme">
+      <span class="ti ti-sun" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></span>
+      <span class="ti ti-moon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+      <span class="ti ti-system" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
+      <span class="theme-tip" id="themeTip">system</span>
+    </button>
+    <button class="menu-btn" id="menuBtn" data-cursor-skip aria-label="Open menu">
+      <span class="menu-lbl"><span class="lbl-open">Menu</span><span class="lbl-close">Close</span></span>
+      <span class="bars"><i></i><i></i><i></i></span>
+    </button>
+  </div>
+  </div>
+</header>
+
+<div class="menu-scrim" id="menuScrim"></div>
+<nav class="menu" id="menu" aria-hidden="true">
+  <div class="menu-card menu-nav">
+    <a class="menu-link" href="index.html#top" data-nav><span>Home</span><span class="ml-dot"></span></a>
+    <a class="menu-link" href="index.html#work" data-nav><span>Projects</span><span class="ml-dot"></span></a>
+    <a class="menu-link active" href="index.html#writing" data-nav><span>Perspectives</span><span class="ml-dot"></span></a>
+    <a class="menu-link" href="index.html#profile" data-nav><span>Profile</span><span class="ml-dot"></span></a>
+    <a class="menu-link" href="index.html#craft" data-nav><span>Skills &amp; Tools</span><span class="ml-dot"></span></a>
+  </div>
+  <div class="menu-card menu-labs">
+    <a class="menu-link" href="#" aria-disabled="true"><span>Labs</span><span class="ml-tag">Soon</span></a>
+  </div>
+  <div class="menu-card menu-contact">
+    <a class="menu-link" href="index.html#contact" data-nav><span>Contact</span><span class="ml-dot"></span></a>
+  </div>
+</nav>
+
+<main id="top">
+<article class="topic" data-screen-label="Topic">
+  <div class="tw">
+
+    <!-- ============================ MASTHEAD ======================= -->
+    <div class="t-head">
+      <a class="t-back" href="index.html#writing" data-nav><span>&#8592;</span> Back to perspectives</a>
+      <div class="t-eyebrow"><span class="dot"></span><span>Essay</span><span>&middot;</span><span>Workflow automation</span></div>
+      <h1 class="art-h1 t-h1">
+        <span class="reveal-line"><span>Beyond automation:</span></span>
+        <span class="reveal-line"><span>designing workflow</span></span>
+        <span class="reveal-line"><span>orchestration</span></span>
+      </h1>
+      <p class="t-dek">A design perspective on building enterprise automation that stays understandable as workflows, conditions, failures, and scale become complex.</p>
+      <div class="t-meta">
+        <div class="m"><span class="k">Written by</span><span class="v">Sumanth Kunisetty</span></div>
+        <div class="m"><span class="k">Published</span><span class="v">2026</span></div>
+        <div class="m"><span class="k">Reading time</span><span class="v">9 minutes</span></div>
+      </div>
+    </div>
+
+    <!-- ============================= SHELL ========================= -->
+    <div class="t-shell">
+
+      <!-- ---- left anchor menu ---- -->
+      <aside class="toc" id="toc">
+        <span class="toc-lbl">Contents</span>
+        <ul class="toc-list">
+          <li><a href="#s1"><span class="no">01</span><span>The short answer</span></a></li>
+          <li><a href="#s2"><span class="no">02</span><span>Orchestration is not automation</span></a></li>
+          <li><a href="#s3"><span class="no">03</span><span>What a workflow is made of</span></a></li>
+          <li><a href="#s4"><span class="no">04</span><span>Where the complexity sits</span></a></li>
+          <li><a href="#s5"><span class="no">05</span><span>Designing the canvas</span></a></li>
+          <li><a href="#s6"><span class="no">06</span><span>Configuration, without the wall of fields</span></a></li>
+          <li><a href="#s7"><span class="no">07</span><span>Failure is a design surface</span></a></li>
+          <li><a href="#s8"><span class="no">08</span><span>What good orchestration feels like</span></a></li>
+        </ul>
+        <div class="toc-foot">
+          <a href="index.html#work" data-nav>See the project &#8599;</a>
+          <a href="index.html#contact" data-nav>Ask me about it &#8599;</a>
+        </div>
+      </aside>
+
+      <!-- ---- reading column ---- -->
+      <div class="t-body">
+        <p class="lead" data-r>Most writing about workflow orchestration explains what a trigger is. That was never the hard part. I spent seven months designing a visual automation builder for enterprise IT operations, and the lesson that outlasted every screen I drew is this: a workflow gets written once and read for years. I designed for the reader.</p>
+
+        <section class="t-sec" id="s1" data-r>
+          <h2><span class="no">01</span>The short answer</h2>
+          <p>Orchestration is the coordination of separate automated steps into one procedure that runs on its own. That is the textbook half of the definition, and it is the half that matters least.</p>
+          <p>The design half is that orchestration is a claim about consequences. What runs, in what order, on whose machines, under which conditions, and what should happen when step four fails on part of the fleet and succeeds on the rest.</p>
+          <p>Chaining two actions together is easy. The design problem begins the moment reality disagrees with the chain.</p>
+        </section>
+
+        <section class="t-sec" id="s2" data-r>
+          <h2><span class="no">02</span>Orchestration is not automation</h2>
+          <p>Automation removes a manual action. Orchestration removes the person who was keeping the sequence in their head.</p>
+          <p>A script that clears a full disk is automation. Finding every device close to capacity, skipping the ones mid-update, clearing the rest, retrying the failures once, then reporting what actually happened is orchestration. Same script, different problem. The second one has order, state, and consequences.</p>
+          <p>This is why telling a stretched IT team to add more automation rarely helps. They usually have plenty of scripts. What they lack is somewhere the sequence lives that stays legible to someone other than the person who wrote it.</p>
+          <blockquote class="t-pull">
+            <p>A workflow gets written once and read for years. I designed for the reader.</p>
+            <cite>The principle the builder was designed against</cite>
+          </blockquote>
+        </section>
+
+        <section class="t-sec" id="s3" data-r>
+          <h2><span class="no">03</span>What a workflow is made of</h2>
+          <p>Strip the vocabulary away and there are six moving parts. Every builder I studied has some version of them, even when the names differ.</p>
+          <ul class="t-defs">
+            <li><b>Trigger</b><span>When it starts. A schedule, an event, an alert threshold, or a person pressing run.</span></li>
+            <li><b>Actions</b><span>The work itself. Install, restart, run a script, notify someone, raise a ticket.</span></li>
+            <li><b>Conditions</b><span>The branches. If the device is on battery, wait. If the install fails, stop before the reboot.</span></li>
+            <li><b>Scope</b><span>Who it happens to. A device group, a saved query, one machine belonging to one frustrated person.</span></li>
+            <li><b>Integrations</b><span>The systems it reaches into for identity, tickets, inventory, or messaging.</span></li>
+            <li><b>Run history</b><span>What happened, per device, per step, on the day it ran.</span></li>
+          </ul>
+          <p>Six parts, and not one of them is where the difficulty lives.</p>
+        </section>
+
+        <section class="t-sec" id="s4" data-r>
+          <h2><span class="no">04</span>Where the complexity sits</h2>
+          <p>Not in the steps. Steps are easy to draw. The complexity is in the relationships between them, and relationships have no natural picture.</p>
+          <p>Branches multiply. Two conditions give four paths, and nobody holds eight in their head while also remembering which group the workflow points at. Scope resolves at run time, so the machine list you get on Friday is not the one you previewed on Monday. Permissions cut across all of it: the person who builds a workflow often cannot run it, and the person who can run it did not build it.</p>
+          <p>Then there is reach. A workflow that touches tens of thousands of devices is not a form submission, it is a decision with a blast radius. The builder has to show that radius before the run rather than during the postmortem.</p>
+          <p>Every one of those problems is an information architecture problem wearing a canvas costume. Which is why the first serious decision was not visual.</p>
+          <figure class="t-fig" data-r>
+            <span class="sh">
+              <img class="im-light" src="assets/work/workflows-light.png" alt="The workflow builder canvas, showing a trigger, branching conditions and action steps laid out top to bottom" loading="lazy" />
+              <img class="im-dark" src="assets/work/workflows-dark.png" alt="" aria-hidden="true" loading="lazy" />
+            </span>
+            <figcaption><b>Fig 01</b><span>Branches split where the logic splits, so the path a run took is drawn rather than reconstructed.</span></figcaption>
+          </figure>
+        </section>
+
+        <section class="t-sec" id="s5" data-r>
+          <h2><span class="no">05</span>Designing the canvas</h2>
+          <p>A form is the cheap starting point, and it holds up until the first condition. After that a linear list of steps reads beautifully and quietly lies to you about what the workflow does.</p>
+          <p>So the graph became the record, read top to bottom, one node per step. Three rules kept it readable as workflows grew longer.</p>
+          <h3>One node, one thing</h3>
+          <p>The moment a node does two things, its label stops describing it and people open it to find out what it is. Splitting the work costs vertical space and buys back comprehension. That trade is almost always worth taking.</p>
+          <h3>Draw the path, do not imply it</h3>
+          <p>If a run took the failure branch, that branch is the one highlighted in its history. Reading a past run should feel like reading the workflow, not translating it.</p>
+          <h3>Nothing critical lives only in a panel</h3>
+          <p>Scope, trigger, and reach sit on the canvas surface. If you have to open three panels to learn what a workflow touches, you will press run without opening them.</p>
+          <blockquote class="t-pull">
+            <p>The canvas is not a diagram of the workflow. It is the workflow.</p>
+            <cite>Why the graph, not the form, became the record</cite>
+          </blockquote>
+        </section>
+
+        <section class="t-sec" id="s6" data-r>
+          <h2><span class="no">06</span>Configuration, without the wall of fields</h2>
+          <p>Every action has settings, and some have dozens. Showing all of them is honest and useless, so configuration moved into a panel that opens with the handful of fields most runs need and keeps the rest one click behind them.</p>
+          <p>Naming was harder than layout. Field names came from the API, where they are precise and unreadable. Operators had their own words for the same things, shorter and less exact. We shipped the operator's words and kept the API name underneath, where the people writing integrations can still find it.</p>
+          <p>Precision belongs in the API. Recognition belongs in the panel. Confusing the two is how enterprise tools end up needing a training course.</p>
+        </section>
+
+        <section class="t-sec" id="s7" data-r>
+          <h2><span class="no">07</span>Failure is a design surface</h2>
+          <p>Large runs are rarely a clean success. Some devices were asleep. Some were mid-update and correctly skipped. A few failed outright for reasons the workflow could not know in advance. One green tick would be a lie, and one red cross would start an unnecessary fire drill.</p>
+          <p>Runs therefore report in three states rather than two, per device, with the reason attached to each, and a rerun touches only what actually failed.</p>
+          <p>This looks like an engineering detail and behaves like an authoring feature. Two-state reporting teaches people to distrust the tool, and distrust shows up as narrower scope: smaller device groups, more manual checking, workflows that do less than they safely could. Designing the failure states well is what lets the successful ones grow.</p>
+        </section>
+
+        <section class="t-sec" id="s8" data-r>
+          <h2><span class="no">08</span>What good orchestration feels like</h2>
+          <p>Boring, mostly. That is the goal.</p>
+          <p>You should be able to open a workflow a colleague built two years ago, read it once, and know what it will do before you press run. Everything else in a builder exists to serve that moment. Get it right and automation stops being a specialist craft that lives with three people, which is the point of putting it behind a canvas at all.</p>
+          <p>The wider promise on the platform side is that automation and proactive remediation reduce IT overhead and resolve issues faster. That only holds if the workflows are understandable enough to be trusted with real scope, which is why readability is the part of orchestration I would defend first.</p>
+          <p>The <a href="index.html#work" data-nav>case study</a> covers what I designed. This is what designing it taught me.</p>
+
+          <div class="t-take" data-r>
+            <h4>In short</h4>
+            <ul class="t-defs">
+              <li><b>The distinction</b><span>Automation removes an action. Orchestration removes the person who was holding the sequence together.</span></li>
+              <li><b>The real work</b><span>Steps are easy to draw. Branches, scope, and permissions are where the design happens.</span></li>
+              <li><b>Before the run</b><span>Show the blast radius while there is still time to change your mind about it.</span></li>
+              <li><b>After the run</b><span>Most large runs end partly successful, so the report should say so plainly.</span></li>
+            </ul>
+          </div>
+
+          <div class="t-end">
+            <span class="av"><img src="assets/avatar-2.jpg" alt="Sumanth Kunisetty" /></span>
+            <div>
+              <p class="ey">Written by</p>
+              <p class="nm">Sumanth Kunisetty</p>
+              <p class="bio">Lead Product Designer working on enterprise IT automation, AI experiences, and the systems that hold them together. Eleven years spent making complicated software readable.</p>
+              <div class="lnks">
+                <a href="index.html#contact" data-nav>Get in touch</a>
+                <a href="index.html#work" data-nav>See the work</a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ---- right paper rail ---- -->
+      <aside class="rail">
+        <a class="paper" href="index.html#work" data-nav>
+          <span class="p-in">
+            <span class="p-lbl"><i></i>Case study</span>
+            <span class="p-title">Designing Automation for Enterprise IT</span>
+            <span class="p-desc">A visual automation builder that turns complex IT operations into understandable workflows, helping teams orchestrate actions, remediation, integrations, and device operations at scale.</span>
+            <span class="p-rows">
+              <span class="row"><span class="k">Year</span><span class="v">2025-2026</span></span>
+              <span class="row"><span class="k">Role</span><span class="v">Lead Product Designer</span></span>
+              <span class="row"><span class="k">Duration</span><span class="v">7+ months</span></span>
+              <span class="row"><span class="k">Team</span><span class="v">2 Designers &middot; 7 Engineers</span></span>
+            </span>
+            <span class="p-go">Read the case study &#8599;</span>
+          </span>
+        </a>
+        <div class="rail-chips">
+          <span class="rc-lbl">Keywords</span>
+          <ul>
+            <li>Workflow Automation</li><li>Enterprise SaaS</li><li>Visual Builder</li><li>Systems Design</li><li>Information Architecture</li><li>Complex Workflows</li><li>IT Operations</li><li>Interaction Design</li>
+          </ul>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</article>
+</main>
+
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="js/article.js"></script>
+<script src="js/glass.js"></script>
+<script>
+  /* anchor menu: mark the section currently under the reading line */
+  (function(){
+    var links=[].slice.call(document.querySelectorAll('.toc-list a'));
+    var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'));});
+    if(!secs.length||!secs[0])return;
+    function sync(){
+      var line=window.innerHeight*0.32,best=0;
+      secs.forEach(function(s,i){ if(s&&s.getBoundingClientRect().top<=line)best=i; });
+      links.forEach(function(a,i){ a.classList.toggle('on',i===best); });
+    }
+    links.forEach(function(a){ a.addEventListener('click',function(e){
+      var t=document.querySelector(a.getAttribute('href')); if(!t)return; e.preventDefault();
+      var y=t.getBoundingClientRect().top+window.pageYOffset-90;
+      window.scrollTo({top:y,behavior:'smooth'});
+    });});
+    window.addEventListener('scroll',sync,{passive:true});
+    window.addEventListener('resize',sync); sync();
+  })();
+</script>
+</body>
+</html>

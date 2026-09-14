@@ -1,0 +1,7 @@
+screenshots/
+uploads/
+_ds/
+.thumbnail
+tweaks-app.jsx
+tweaks-panel.jsx
+.DS_Store

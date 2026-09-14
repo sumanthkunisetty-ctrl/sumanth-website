@@ -1,0 +1,165 @@
+/* ============================================================================
+   TOPIC / EXPLAINER TEMPLATE
+   Three-track shell: sticky anchor menu, reading column, sticky paper rail.
+   Square corners, hairlines and tabular meta blocks, same family as the home
+   page. Loads after article.css and overrides its rounded card treatments.
+   ========================================================================== */
+
+.topic{ padding-top:calc(var(--navh,72px) + clamp(44px,7vh,88px)); padding-bottom:clamp(80px,12vh,140px); }
+.tw{ max-width:var(--gmax); margin:0 auto; padding:0 var(--ggut); width:100%; }
+
+/* ---- masthead ----------------------------------------------------------- */
+.t-back{ display:inline-flex; align-items:center; gap:10px; font-size:12.5px; color:var(--fg3);
+  transition:color .3s var(--ease),gap .4s var(--ease); }
+.t-back:hover{ color:var(--fg); gap:14px; }
+.t-head{ padding-bottom:clamp(34px,4vw,56px); border-bottom:1px solid var(--hair); }
+.t-eyebrow{ display:flex; align-items:center; gap:12px; margin:clamp(30px,4vw,52px) 0 clamp(22px,2.6vw,34px);
+  font-size:10.5px; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--fg3); }
+.t-eyebrow .dot{ width:7px; height:7px; background:var(--green-ink); }
+.t-h1{ font-weight:300; font-size:clamp(40px,6.6vw,88px); line-height:.98; letter-spacing:-.038em;
+  color:var(--fg); max-width:19ch; text-wrap:balance; }
+.t-h1 .reveal-line{ display:block; overflow:hidden; padding-bottom:.14em; margin-bottom:-.14em; }
+.t-h1 .reveal-line > span{ display:block; will-change:transform; }
+.t-dek{ margin-top:clamp(24px,3vw,38px); font-size:clamp(18px,1.6vw,24px); line-height:1.45;
+  color:var(--fg2); max-width:52ch; letter-spacing:-.012em; }
+
+/* tabular meta strip, same grammar as the home page fact row */
+.t-meta{ margin-top:clamp(30px,3.6vw,46px); display:flex; flex-wrap:wrap;
+  gap:clamp(20px,2.6vw,44px); }
+.t-meta .m{ min-width:0; padding:0;
+  display:flex; flex-direction:column; gap:7px; }
+.t-meta .k{ font-size:10px; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--fg3); }
+.t-meta .v{ font-size:14.5px; color:var(--fg); letter-spacing:-.01em; }
+@media (max-width:620px){ .t-meta{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+
+/* ---- three-track shell -------------------------------------------------- */
+.t-shell{ margin-top:clamp(48px,6vw,86px); display:grid;
+  grid-template-columns:clamp(180px,15vw,224px) minmax(0,1fr) clamp(268px,23vw,320px);
+  gap:clamp(28px,3.6vw,64px); align-items:start; }
+
+/* ---- left anchor menu --------------------------------------------------- */
+.toc{ position:sticky; top:calc(var(--navh,72px) + 28px); }
+.toc-lbl{ display:block; font-size:10px; font-weight:500; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--fg3); padding-bottom:14px; }
+.toc-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; }
+.toc-list a{ display:grid; grid-template-columns:22px 1fr; gap:10px; align-items:baseline;
+  padding:9px 0; font-size:13px; line-height:1.35; color:var(--fg3);
+  transition:color .3s var(--ease); }
+.toc-list a .no{ font-size:10.5px; letter-spacing:.06em; color:var(--fg3); font-variant-numeric:tabular-nums;
+  transition:color .3s var(--ease); }
+.toc-list a:hover{ color:var(--fg); }
+.toc-list a.on{ color:var(--fg); }
+.toc-list a.on .no{ color:var(--green-ink); }
+.toc-foot{ margin-top:22px; padding-top:16px; border-top:1px solid var(--hair); font-size:12px; color:var(--fg3); display:flex; flex-direction:column; gap:9px; }
+.toc-foot a{ color:var(--fg2); transition:color .3s var(--ease); }
+.toc-foot a:hover{ color:var(--fg); }
+
+/* ---- reading column ----------------------------------------------------- */
+.t-body{ font-size:clamp(16.5px,1.2vw,18.5px); line-height:1.68; color:var(--fg); letter-spacing:-.006em;
+  max-width:70ch; }
+.t-body > * + *,.t-sec > * + *{ margin-top:1.5em; }
+.t-body .lead{ font-size:clamp(20px,1.6vw,24px); line-height:1.5; letter-spacing:-.015em; color:var(--fg); }
+.t-sec{ scroll-margin-top:calc(var(--navh,72px) + 30px); }
+.t-sec + .t-sec{ margin-top:clamp(52px,6vw,88px); }
+.t-sec h2{ font-weight:400; font-size:clamp(25px,2.6vw,36px); line-height:1.12; letter-spacing:-.028em;
+  color:var(--fg); max-width:24ch; text-wrap:balance; margin-bottom:clamp(18px,2vw,26px); }
+.t-sec h2 .no{ font-size:11px; letter-spacing:.16em; color:var(--fg3); display:block; margin-bottom:14px;
+  font-variant-numeric:tabular-nums; }
+.t-body h3{ font-weight:500; font-size:clamp(17px,1.35vw,20px); line-height:1.3; letter-spacing:-.012em;
+  color:var(--fg); margin-top:1.9em; }
+.t-body h3 + p{ margin-top:.7em; }
+.t-body strong{ font-weight:500; color:var(--fg); }
+.t-body a{ color:var(--green-ink); text-decoration:none;
+  background-image:linear-gradient(currentColor,currentColor); background-size:0% 1px;
+  background-position:0 100%; background-repeat:no-repeat; transition:background-size .4s var(--ease); }
+.t-body a:hover{ background-size:100% 1px; }
+
+/* definition rows: what a workflow is made of */
+.t-defs{ list-style:none; margin:clamp(24px,2.6vw,34px) 0 0; padding:0; border-top:1px solid var(--hair); }
+.t-defs li{ display:grid; grid-template-columns:clamp(112px,13vw,168px) minmax(0,1fr);
+  gap:clamp(14px,2vw,28px); padding:clamp(16px,1.7vw,22px) 0; border-bottom:1px solid var(--hair);
+  font-size:15.5px; line-height:1.55; }
+.t-defs b{ font-weight:450; color:var(--fg); letter-spacing:-.01em; }
+.t-defs span{ color:var(--fg2); }
+@media (max-width:560px){ .t-defs li{ grid-template-columns:1fr; gap:6px; } }
+
+/* pull quote */
+.t-pull{ margin:clamp(44px,5.5vw,78px) 0; padding-left:clamp(20px,2.4vw,34px);
+  border-left:1px solid var(--green-ink); }
+.t-pull p{ font-weight:300; font-size:clamp(22px,2.4vw,32px); line-height:1.26; letter-spacing:-.026em;
+  color:var(--fg); max-width:28ch; margin:0; }
+.t-pull cite{ display:block; margin-top:16px; font-style:normal; font-size:12.5px; color:var(--fg3); }
+
+/* figure */
+.t-fig{ margin:clamp(36px,4.4vw,64px) 0; }
+.t-fig .sh{ position:relative; display:block; aspect-ratio:16/10; overflow:hidden;
+  background:var(--wash-2); box-shadow:inset 0 0 0 1px var(--hair); }
+.t-fig img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
+.t-fig .im-dark{ display:none; }
+html[data-theme="dark"] .t-fig .im-light{ display:none; }
+html[data-theme="dark"] .t-fig .im-dark{ display:block; }
+@media (prefers-color-scheme:dark){
+  html[data-theme="system"] .t-fig .im-light{ display:none; }
+  html[data-theme="system"] .t-fig .im-dark{ display:block; } }
+.t-fig figcaption{ margin-top:12px; font-size:12.5px; color:var(--fg3); display:flex; gap:8px; }
+.t-fig figcaption b{ font-weight:450; color:var(--fg2); }
+
+/* closing recap: same term/definition grammar as the anatomy table */
+.t-take{ margin:clamp(44px,5.5vw,78px) 0 0; }
+.t-take h4{ font-size:10.5px; font-weight:500; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--fg3); padding-bottom:clamp(10px,1.2vw,16px); }
+.t-take .t-defs{ margin-top:0; }
+.t-take .t-defs b{ color:var(--green-ink); }
+
+/* ---- right paper rail --------------------------------------------------- */
+.rail{ position:sticky; top:calc(var(--navh,72px) + 28px); display:flex; flex-direction:column;
+  align-items:stretch; gap:clamp(18px,2vw,26px); }
+.paper{ display:block; background:var(--paper); box-shadow:inset 0 0 0 1px var(--hair);
+  transition:box-shadow .4s var(--ease),background .4s var(--ease); }
+a.paper:hover{ background:var(--card-hover); box-shadow:inset 0 0 0 1px var(--fg3); }
+.paper .p-in{ display:block; padding:clamp(18px,1.9vw,24px); }
+.paper .p-lbl{ display:flex; align-items:center; gap:9px; font-size:10px; font-weight:500;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--fg3); }
+.paper .p-lbl i{ width:6px; height:6px; background:var(--green-ink); }
+.paper .p-title{ display:block; margin-top:14px; font-size:19px; font-weight:400; line-height:1.22;
+  letter-spacing:-.02em; color:var(--fg); }
+.paper .p-desc{ display:block; margin-top:12px; font-size:13px; line-height:1.5; color:var(--fg2); }
+.paper .p-rows{ display:block; margin-top:18px; border-top:1px solid var(--hair); }
+.paper .p-rows .row{ display:flex; justify-content:space-between; gap:14px; padding:9px 0;
+  border-bottom:1px solid var(--hair); font-size:12px; }
+.paper .p-rows .k{ color:var(--fg3); letter-spacing:.02em; }
+.paper .p-rows .v{ color:var(--fg); text-align:right; }
+.paper .p-go{ margin-top:18px; display:inline-flex; align-items:center; gap:8px; font-size:12.5px;
+  color:var(--fg2); transition:color .3s var(--ease),gap .4s var(--ease); }
+a.paper:hover .p-go{ color:var(--fg); gap:12px; }
+
+.rail-chips{ align-self:flex-start; padding:clamp(18px,1.9vw,24px); box-shadow:inset 0 0 0 1px var(--hair); }
+.rail-chips .rc-lbl{ font-size:10px; font-weight:500; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--fg3); }
+.rail-chips ul{ list-style:none; margin:14px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px; }
+.rail-chips li{ font-size:11.5px; color:var(--fg2); padding:5px 9px; box-shadow:inset 0 0 0 1px var(--hair); }
+
+/* ---- closing note ------------------------------------------------------- */
+.t-end{ margin-top:clamp(60px,7vw,104px); padding-top:clamp(28px,3vw,44px); border-top:1px solid var(--hair);
+  display:grid; grid-template-columns:auto minmax(0,1fr); gap:clamp(18px,2.2vw,30px); align-items:start; }
+.t-end .av{ width:clamp(56px,5.4vw,72px); height:clamp(56px,5.4vw,72px); overflow:hidden;
+  background:var(--wash-2); }
+.t-end .av img{ width:100%; height:100%; object-fit:cover; display:block; }
+.t-end .ey{ font-size:10px; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--fg3); }
+.t-end .nm{ margin-top:10px; font-size:clamp(19px,1.9vw,24px); font-weight:400; letter-spacing:-.02em; color:var(--fg); }
+.t-end .bio{ margin-top:12px; font-size:14px; line-height:1.6; color:var(--fg2); max-width:56ch; }
+.t-end .lnks{ display:flex; gap:18px; margin-top:16px; font-size:12.5px; }
+.t-end .lnks a{ color:var(--fg); }
+
+/* ---- responsive --------------------------------------------------------- */
+@media (max-width:1080px){
+  .t-shell{ grid-template-columns:clamp(160px,17vw,200px) minmax(0,1fr); }
+  .rail{ position:static; grid-column:1/-1; flex-direction:row; flex-wrap:wrap; align-items:flex-start; }
+  .rail > *{ flex:1 1 280px; }
+}
+@media (max-width:760px){
+  .t-shell{ grid-template-columns:1fr; }
+  .toc{ position:static; }
+  .toc-list{ max-height:none; }
+  .rail{ flex-direction:column; }
+}

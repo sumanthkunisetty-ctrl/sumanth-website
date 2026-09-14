@@ -1,0 +1,75 @@
+/* ============================================================================
+   GRID LEVELS — dials the visible grid down in four stages.
+   html[data-grid] = full | soft | ends | off        (default: full)
+   ========================================================================== */
+
+:root{ --vfade:linear-gradient(180deg,transparent 0,var(--grule) 20%,var(--grule) 62%,transparent 100%); }
+
+/* ---- SOFT: ambient rules whose ends dissolve into the page -------------
+   The rules are drawn as vertical gradients (not borders) so the top and
+   bottom of every column line fades out instead of stopping on an edge. */
+html[data-grid="soft"] .page-rules{ -webkit-mask-image:none; mask-image:none; }
+html[data-grid="soft"] .page-rules span{ box-shadow:none; }
+html[data-grid="soft"] .page-rules i{ border-color:transparent; }
+html[data-grid="soft"] .page-rules span{
+  background-image:var(--vfade),var(--vfade);
+  background-size:1px 100%,1px 100%; background-position:0 0,100% 0;
+  background-repeat:no-repeat; }
+html[data-grid="soft"] .page-rules i{ background-image:var(--vfade);
+  background-size:1px 100%; background-position:100% 0; background-repeat:no-repeat; }
+html[data-grid="soft"] .page-rules i:last-child{ background-image:none; }
+html[data-grid="soft"] .pgrid .pf-shot{ background-image:linear-gradient(180deg,var(--grule-soft) 0,var(--grule-soft) 74%,transparent 100%); }
+
+/* ---- AXIS: an art-directed subset — only the lines that mean something --
+   Keeps the two margin rules (they state the page measure) and the centre
+   axis (where the layout actually splits), drops the five interior column
+   rules and the card-to-card verticals so one vertical language remains. */
+html[data-grid="axis"] .page-rules{ -webkit-mask-image:none; mask-image:none; }
+html[data-grid="axis"] .page-rules span{ box-shadow:none; }
+html[data-grid="axis"] .page-rules i{ border-color:transparent; }
+html[data-grid="axis"] .page-rules span{
+  background-image:var(--vfade),var(--vfade);
+  background-size:1px 100%,1px 100%; background-position:0 0,100% 0;
+  background-repeat:no-repeat; }
+html[data-grid="axis"] .page-rules i:nth-child(3){ background-image:var(--vfade);
+  background-size:1px 100%; background-position:100% 0; background-repeat:no-repeat; }
+html[data-grid="axis"] :is(.wgrid,.cgrid,.jgrid,.rgrid,.syn,.tstrip)::before{ display:none; }
+html[data-grid="axis"] :is(.pcard,.ccell,.jcell,.rcell,.syn .sc,.tstrip .tcell){ border-right:0; }
+html[data-grid="axis"] .pgrid .pf-shot{ background-image:none; }
+
+/* ---- ENDS: grid reads only at the bookends (hero + footer strips) ------
+   The continuous page rules go; the middle of the page relies on row
+   hairlines and the tabular meta blocks alone. */
+html[data-grid="ends"] .page-rules{ display:none; }
+html[data-grid="ends"] :is(.wgrid,.cgrid,.jgrid,.rgrid,.syn,.tstrip)::before{ display:none; }
+html[data-grid="ends"] :is(.pcard,.ccell,.jcell,.rcell,.syn .sc,.tstrip .tcell){ border-right:0; }
+html[data-grid="ends"] .pgrid .pf-shot{ background-image:none; }
+html[data-grid="ends"] :is(.sec-head,.hero-spec,.hero-facts,.pfacts,.pgrid,.c-lead,.pc-meta){ background-image:none; }
+
+/* ---- OFF: no vertical rules at all — horizontal hairlines only --------- */
+html[data-grid="off"] .page-rules{ display:none; }
+html[data-grid="off"] :is(.wgrid,.cgrid,.jgrid,.rgrid,.syn,.tstrip,.fgrid)::before{ display:none; }
+html[data-grid="off"] :is(.pcard,.ccell,.jcell,.rcell,.syn .sc,.tstrip .tcell,
+  .fgrid .fc,.hero-facts .hf,.hero-spec .hs,.pfacts .r){ border-right:0; }
+html[data-grid="off"] .pgrid .pf-shot{ background-image:none; }
+html[data-grid="off"] :is(.sec-head,.hero-spec,.hero-facts,.pfacts,.pgrid,.c-lead,.pc-meta){ background-image:none; }
+/* with no rule to knock out, loose type loses its inset box */
+html[data-grid="off"] :is(.ko,.hero-h1 .ln,.hm-copy,.sec-head .sh-title,.pf-copy p,
+  .syn-out b,.syn-out i,.c-lead h2 .reveal-line,.fbase span,.rlabel){
+  padding-left:0; padding-right:0; }
+html[data-grid="off"] .chips{ padding-left:0; }
+html[data-grid="off"] :is(.wgrid,.cgrid,.jgrid,.rgrid,.syn,.tstrip){ gap:0 clamp(24px,3vw,52px); }
+
+/* ---- the dial ---------------------------------------------------------- */
+.gridctl{ position:fixed; right:44px; top:calc(var(--navh,72px) + 14px); z-index:60; display:flex;
+  border:1px solid var(--grule); background:var(--bg); }
+.gridctl b{ font-size:9.5px; font-weight:500; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--fg3); padding:9px 11px; border-right:1px solid var(--grule); }
+.gridctl button{ font:inherit; font-size:9.5px; font-weight:500; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--fg3); background:none; border:0;
+  border-right:1px solid var(--grule); padding:9px 12px; cursor:none;
+  transition:color .25s var(--ease),background .25s var(--ease); }
+.gridctl button:last-child{ border-right:0; }
+.gridctl button:hover{ color:var(--fg); background:var(--cell-hov); }
+.gridctl button[aria-pressed="true"]{ color:var(--bg); background:var(--fg); }
+@media (max-width:640px){ .gridctl b{ display:none; } }

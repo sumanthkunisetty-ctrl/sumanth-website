@@ -1,0 +1,106 @@
+/* ============================================================================
+   RESPONSIVE LAYER — tablet & phone
+   Loaded last so it overrides section defaults AND desktop-only inline styles.
+   ========================================================================== */
+
+/* ---------- TABLET ( ≤ 860px ) ----------------------------------------- */
+@media (max-width:860px){
+  .section-head{ margin-bottom:clamp(32px,6vw,56px); }
+  .work{ border-radius:24px 24px 0 0; }
+  .contact{ border-radius:24px 24px 0 0; }
+}
+
+/* ---------- PHONE ( ≤ 600px ) ------------------------------------------ */
+@media (max-width:600px){
+  :root{ --gut:22px; }
+
+  /* tighten global vertical rhythm */
+  .manifesto,.work,.writing,.voices,.about,.toolbox{
+    padding-top:clamp(64px,14vw,88px); padding-bottom:clamp(64px,14vw,88px); }
+  .section-head{ margin-bottom:32px; }
+  .section-head h2{ font-size:clamp(28px,8vw,40px); }
+
+  /* ---- HERO ---- */
+  .hero{ padding:116px 22px 36px !important; min-height:100svh; justify-content:flex-end !important; }
+  .hero-meta{ position:static !important; padding:0 !important; margin-bottom:auto;
+    width:100%; text-align:left !important; }
+  .hm-l{ text-align:left !important; font-size:13px; color:var(--fg2); }
+  .wordmark{ margin:auto 0 clamp(28px,7vw,44px); }
+  .wm-row{ padding-bottom:.16em; margin-bottom:-.12em; }
+  .wm-line{ height:auto !important; font-size:clamp(58px,17vw,84px) !important; white-space:nowrap; }
+  .hero-foot{ flex-direction:column !important; align-items:flex-start !important;
+    gap:26px !important; margin:0 !important; }
+  .hero-tag{ font-size:18px !important; max-width:26ch; }
+  .hero-contact{ align-items:flex-start !important; text-align:left !important; width:100%; }
+  .hero-contact .hc-mail{ font-size:22px !important; }
+  .hero-contact .hc-links{ flex-wrap:wrap; gap:16px; }
+
+  /* ---- MANIFESTO ---- */
+  .manifesto p{ font-size:clamp(23px,6.4vw,30px); }
+  .manifesto .sig{ margin-top:40px; }
+
+  /* ---- WORK : stack each row into a clean editorial card ---- */
+  .work{ border-radius:20px 20px 0 0; }
+  .work-list.row-active .work-item .wi-no,
+  .work-list.row-active .work-item .wi-main,
+  .work-list.row-active .work-item .wi-cta{ opacity:1; } /* no dimming without hover */
+  .work-item{ grid-template-columns:1fr !important; gap:14px; padding:30px 0 !important; }
+  .work-item .wi-no{ font-size:12px; }
+  .work-item .wi-main{ max-width:none !important; gap:14px; }
+  .work-item .wi-title{ font-size:clamp(30px,8.4vw,40px) !important; transform:none !important; }
+  .work-item:hover .wi-title{ transform:none !important; }
+  .wi-desc{ font-size:15px !important; max-width:none !important; }
+  .wi-meta{ flex-wrap:wrap !important; gap:16px 28px !important; }
+  .wi-title .yr{ font-size:13px !important; }
+  .wi-meta .m .k{ font-size:11px !important; }
+  .work-item .wi-cta{ justify-self:start; transform:none !important; }
+  .wi-preview{ display:none !important; }
+
+  /* ---- KINETIC ---- */
+  .kinetic .track span{ font-size:clamp(48px,16vw,90px); }
+
+  /* ---- JOURNAL ---- */
+  .jr-ftitle{ font-size:clamp(34px,10vw,48px); }
+  .jr-title{ font-size:clamp(26px,7.4vw,36px); }
+  .jr-list{ gap:14px; }
+  .jr-list .jr-item{ padding:26px 24px; }
+
+  /* ---- VOICES ---- */
+  .voices-h{ font-size:clamp(28px,9vw,40px); }
+  .quote{ border-radius:20px; padding:24px; }
+  .quote.full .q-text{ font-size:clamp(24px,7.4vw,32px); }
+  .quote .q-text{ font-size:19px; }
+
+  /* ---- ABOUT ---- */
+  .about .wrap{ gap:36px; }
+  .about .a-lead{ font-size:clamp(23px,6.6vw,30px); }
+  .a-portrait{ max-width:300px; }
+
+  /* ---- TOOLBOX ---- */
+  .tb-title{ font-size:clamp(34px,10vw,52px); }
+  .skill{ font-size:14px; padding:9px 15px; }
+  .tools{ gap:12px; }
+  .tool{ min-height:130px; padding:20px; border-radius:16px; }
+
+  /* ---- CONTACT ---- */
+  .contact{ border-radius:20px 20px 0 0; padding-top:clamp(72px,16vw,110px); }
+  .c-big{ font-size:clamp(46px,14vw,68px) !important; }
+  .mail-btn{ width:100%; justify-content:space-between; margin-top:36px;
+    padding:20px 26px !important; font-size:17px !important; }
+  .contact-foot{ grid-template-columns:1fr 1fr !important; gap:28px 20px; }
+  .contact-base{ flex-direction:column; align-items:flex-start; gap:10px; }
+}
+
+/* ---------- SMALL PHONE ( ≤ 400px ) ------------------------------------ */
+@media (max-width:400px){
+  .wm-line{ font-size:clamp(52px,16vw,72px) !important; }
+  .jr-list .jr-item{ padding:22px 20px; }
+  .jr-title{ margin-top:12px; }
+  .jr-excerpt{ margin-top:10px; }
+  .tools{ grid-template-columns:1fr !important; }
+  .tool{ min-height:0; flex-direction:row; align-items:center; gap:16px; }
+  .tool .tl-ico{ margin-bottom:0; }
+  .tool .tl-name{ margin-top:0; }
+  .tool .tl-sub{ margin-top:0; margin-left:auto; }
+  .contact-foot{ grid-template-columns:1fr !important; }
+}

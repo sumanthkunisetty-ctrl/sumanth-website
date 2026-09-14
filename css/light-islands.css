@@ -1,0 +1,123 @@
+/* ============================================================================
+   LIGHT ISLANDS — in light mode the former black slabs (work / kinetic /
+   contact / full-width quote) become light glass, matching the rest of the
+   page. Token-driven so dark mode keeps its original treatment.
+   Loaded LAST, after glass.css.
+   ========================================================================== */
+
+/* ---- tokens: LIGHT ------------------------------------------------------ */
+:root,html[data-theme="light"]{
+  --isl-c:16,16,16;                 /* ink triplet for alpha-derived text */
+  --isl-ink:#101010; --isl-strong:#000; --isl-accent:var(--green);
+  --isl-hair:rgba(18,22,34,.10);
+  --isl-inset:inset 0 1px 0 rgba(255,255,255,.85);
+  --isl-slabsh:0 -20px 60px -44px rgba(18,22,40,.16);
+  --isl-spec:rgba(255,255,255,.55);
+  --isl-pvsh:0 22px 54px -20px rgba(18,22,40,.28),inset 0 1px 0 rgba(255,255,255,.6);
+  --isl-quote-bg:linear-gradient(180deg,rgba(255,255,255,.74),rgba(255,255,255,.52));
+  --isl-btn-bg:linear-gradient(180deg,#2c2c2c,#282828); --isl-btn-fg:#fff;
+  --isl-btn-bd:rgba(255,255,255,.06);
+  --isl-btn-sh:inset 2px 0 8px 2px rgba(248,248,248,.2),0 16px 36px -16px rgba(18,22,40,.4);
+  /* the slab fill itself — reuses glass.css's island plumbing */
+  --island:255,255,255; --island-a1:.6; --island-a2:.44;
+}
+/* ---- tokens: DARK (unchanged look) ------------------------------------- */
+html[data-theme="dark"]{
+  --isl-c:255,255,255;
+  --isl-ink:#f1f1f1; --isl-strong:#fff; --isl-accent:var(--green-bright);
+  --isl-hair:rgba(255,255,255,.1);
+  --isl-inset:inset 0 1px 0 rgba(255,255,255,.12);
+  --isl-slabsh:0 -30px 70px -40px rgba(18,22,40,.4);
+  --isl-spec:rgba(255,255,255,.055);
+  --isl-pvsh:0 30px 70px -18px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.18);
+  --isl-quote-bg:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.08));
+  --isl-btn-bg:linear-gradient(165deg,rgba(255,255,255,.94),rgba(240,242,246,.8));
+  --isl-btn-fg:#101010; --isl-btn-bd:rgba(255,255,255,.5);
+  --isl-btn-sh:0 1px 0 rgba(255,255,255,.9) inset,0 18px 40px -14px rgba(0,0,0,.5);
+}
+@media (prefers-color-scheme:dark){
+  html[data-theme="system"]{
+    --isl-c:255,255,255;
+    --isl-ink:#f1f1f1; --isl-strong:#fff; --isl-accent:var(--green-bright);
+    --isl-hair:rgba(255,255,255,.1);
+    --isl-inset:inset 0 1px 0 rgba(255,255,255,.12);
+    --isl-slabsh:0 -30px 70px -40px rgba(18,22,40,.4);
+    --isl-spec:rgba(255,255,255,.055);
+    --isl-pvsh:0 30px 70px -18px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.18);
+    --isl-quote-bg:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.08));
+    --isl-btn-bg:linear-gradient(165deg,rgba(255,255,255,.94),rgba(240,242,246,.8));
+    --isl-btn-fg:#101010; --isl-btn-bd:rgba(255,255,255,.5);
+    --isl-btn-sh:0 1px 0 rgba(255,255,255,.9) inset,0 18px 40px -14px rgba(0,0,0,.5);
+  }
+}
+
+/* ---- slabs -------------------------------------------------------------- */
+.work,.contact{ color:var(--isl-ink); box-shadow:var(--isl-inset),var(--isl-slabsh); }
+.kinetic{ color:var(--isl-ink); }
+.work::before,.contact::before{ background:radial-gradient(closest-side,var(--isl-spec),rgba(255,255,255,0) 70%); }
+
+/* ---- work list ---------------------------------------------------------- */
+.work .section-head h2{ color:var(--isl-ink); }
+.work .section-head .idx{ color:rgba(var(--isl-c),.42); }
+.work-list{ border-top-color:var(--isl-hair); }
+.work-item{ border-bottom-color:var(--isl-hair);
+  background-image:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),
+    rgba(var(--isl-c),calc(var(--sheen) * .035)) 0%,rgba(var(--isl-c),0) 70%); }
+.work-item .wi-no{ color:rgba(var(--isl-c),.4); }
+.work-item .wi-title .yr{ color:rgba(var(--isl-c),.42); }
+.work-item .wi-desc{ color:rgba(var(--isl-c),.62); }
+.work-item .wi-tags span{ color:rgba(var(--isl-c),.58);
+  background:rgba(var(--isl-c),.035); border-color:rgba(var(--isl-c),.14); }
+.work-item .wi-meta .m .k{ color:rgba(var(--isl-c),.4); }
+.work-item .wi-meta .m .v{ color:rgba(var(--isl-c),.76); }
+.work-item .wi-cta{ color:rgba(var(--isl-c),.5); }
+.work-item:hover .wi-title{ color:var(--isl-strong); }
+.work-item:hover .wi-cta{ color:var(--isl-accent); }
+.wi-preview{ border-color:var(--isl-hair); box-shadow:var(--isl-pvsh); }
+
+/* ---- kinetic band ------------------------------------------------------- */
+.kinetic .track span .o{ -webkit-text-stroke:1px rgba(var(--isl-c),.5); }
+.kinetic .track span .star{ color:var(--isl-accent); }
+
+/* ---- full-width quote --------------------------------------------------- */
+.quote.full{ background:var(--isl-quote-bg); color:var(--isl-ink);
+  border:1px solid var(--isl-hair); box-shadow:var(--gl-sh-1),inset 0 1px 0 var(--gl-edge); }
+.quote.full .q-who .rl{ color:rgba(var(--isl-c),.52); }
+.quote.full .q-who .av{ background:rgba(var(--isl-c),.06); border-color:rgba(var(--isl-c),.12); }
+
+/* ---- contact + footer --------------------------------------------------- */
+.contact .c-eyebrow{ color:rgba(var(--isl-c),.5); }
+.contact .c-big .reveal-line > span{ color:var(--isl-ink); }
+.mail-btn{ background:var(--isl-btn-bg); color:var(--isl-btn-fg);
+  border:1px solid var(--isl-btn-bd); box-shadow:var(--isl-btn-sh); }
+.contact-foot{ border-top-color:var(--isl-hair); }
+.contact-foot .cf-col h4{ color:rgba(var(--isl-c),.44); }
+.contact-foot .cf-col a,.contact-foot .cf-col p{ color:rgba(var(--isl-c),.74); }
+.contact-foot .cf-col a:hover{ color:var(--isl-accent); }
+.contact-base{ color:rgba(var(--isl-c),.46); }
+.contact-base .cb-mark{ color:rgba(var(--isl-c),.07); }
+
+/* ---- nav / menu no longer need inverting in light mode ------------------ */
+html[data-theme="light"] body.nav-on-dark .nav-blur,
+html[data-theme="system"] body.nav-on-dark .nav-blur{ --nav-tint:#f7f8fa; }
+html[data-theme="light"] body.nav-on-dark .nav,
+html[data-theme="system"] body.nav-on-dark .nav{ color:var(--fg);
+  background-color:var(--gl-2); border-color:var(--gl-line);
+  box-shadow:var(--gl-sh-3),inset 0 1px 0 var(--gl-edge),inset 0 -1px 0 var(--gl-edge-b); }
+html[data-theme="light"] body.nav-on-dark.scrolled .nav,
+html[data-theme="system"] body.nav-on-dark.scrolled .nav{ background-color:var(--gl-3); }
+html[data-theme="light"] body.nav-on-dark .theme-btn:hover,
+html[data-theme="light"] body.nav-on-dark .menu-btn:hover,
+html[data-theme="system"] body.nav-on-dark .theme-btn:hover,
+html[data-theme="system"] body.nav-on-dark .menu-btn:hover{ background:rgba(var(--gl-sheen-c),.5); }
+@media (prefers-color-scheme:dark){
+  html[data-theme="system"] body.nav-on-dark .nav-blur{ --nav-tint:#101010; }
+  html[data-theme="system"] body.nav-on-dark .nav{ color:#f4f5f7;
+    background-color:rgba(255,255,255,.07); border-color:rgba(255,255,255,.10);
+    box-shadow:0 18px 44px -16px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.16),inset 0 -1px 0 rgba(255,255,255,.04); }
+  html[data-theme="system"] body.nav-on-dark.scrolled .nav{ background-color:rgba(255,255,255,.10); }
+  html[data-theme="system"] body.nav-on-dark .theme-btn:hover,
+  html[data-theme="system"] body.nav-on-dark .menu-btn:hover{ background:rgba(255,255,255,.1); }
+}
+/* cursor ring stays dark over the (now light) slabs */
+html[data-theme="light"] body[data-cursor="dark"] .cursor-ring{ border-color:var(--ring-line); }
