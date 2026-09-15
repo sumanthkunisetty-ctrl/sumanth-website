@@ -42,9 +42,9 @@
   (function initTheme() {
     const btn = $("#themeBtn"), tip = $("#themeTip");
     const root = document.documentElement;
-    const order = ["light", "dark", "system"];
-    const label = { light: "Light", dark: "Dark", system: "System" };
-    function get() { return root.getAttribute("data-theme") || "system"; }
+    const order = ["light", "dark"];
+    const label = { light: "Light", dark: "Dark" };
+    function get() { var t = root.getAttribute("data-theme") || "dark"; return t === "system" ? "dark" : t; }
     function set(t) {
       root.setAttribute("data-theme", t);
       try { localStorage.setItem("sk-theme", t); } catch (e) {}
@@ -149,8 +149,8 @@
       if (r.top <= probe && r.bottom >= probe) dark = true;
       if (r.top <= navProbe && r.bottom >= navProbe) navDark = true;
     });
-    const t = document.documentElement.getAttribute("data-theme");
-    const themeDark = t === "dark" || (t !== "light" && matchMedia("(prefers-color-scheme:dark)").matches);
+    const t = document.documentElement.getAttribute("data-theme") || "dark";
+    const themeDark = t === "dark";
     document.body.classList.toggle("on-dark", dark && themeDark);
     document.body.classList.toggle("nav-on-dark", navDark && themeDark);
   }

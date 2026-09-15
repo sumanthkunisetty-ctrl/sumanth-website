@@ -19,15 +19,26 @@
   /* ===================================================== THEME TOGGLE */
   (function initTheme() {
     const btn = $("#themeBtn"), tip = $("#themeTip"), root = document.documentElement;
-    const order = ["light", "dark", "system"];
-    const label = { light: "Light", dark: "Dark", system: "System" };
-    const get = () => root.getAttribute("data-theme") || "system";
+    const order = ["light", "dark"];
+    const label = { light: "Light", dark: "Dark" };
+    const get = () => { var t = root.getAttribute("data-theme") || "dark"; return t === "system" ? "dark" : t; };
+    function setFavicons(theme) {
+      var mode = theme === "light" ? "Light" : "Dark";
+      var f16 = document.getElementById("favicon16");
+      var f32 = document.getElementById("favicon32");
+      var f48 = document.getElementById("favicon48");
+      if (f16) f16.href = "Favicons/16x16 " + mode + ".svg";
+      if (f32) f32.href = "Favicons/32x32 " + mode + ".svg";
+      if (f48) f48.href = "Favicons/48x48 " + mode + ".svg";
+    }
     if (tip) tip.textContent = label[get()];
+    setFavicons(get());
     if (btn) btn.addEventListener("click", () => {
       const next = order[(order.indexOf(get()) + 1) % order.length];
       root.setAttribute("data-theme", next);
       try { localStorage.setItem("sk-theme", next); } catch (e) {}
       if (tip) tip.textContent = label[next];
+      setFavicons(next);
     });
   })();
 
@@ -119,7 +130,7 @@
     l.classList.toggle("active", l.getAttribute("data-spy") === spy));
   function currentSpy() {
     const probe = innerHeight * 0.34;
-    const ids = ["hero", "work", "profile", "writing", "craft", "contact"];
+    const ids = ["hero", "work", "writing", "profile", "craft", "contact"];
     let active = "hero";
     ids.forEach((id) => {
       const el = document.getElementById(id);
