@@ -18,9 +18,9 @@
   (function initTheme() {
     const btn = $("#themeBtn"), tip = $("#themeTip");
     const root = document.documentElement;
-    const order = ["light", "dark", "system"];
-    const label = { light: "Light", dark: "Dark", system: "System" };
-    const get = () => root.getAttribute("data-theme") || "system";
+    const order = ["light", "dark"];
+    const label = { light: "Light", dark: "Dark" };
+    const get = () => { var t = root.getAttribute("data-theme") || "dark"; return t === "system" ? "dark" : t; };
     const set = (t) => { root.setAttribute("data-theme", t);
       try { localStorage.setItem("sk-theme", t); } catch (e) {}
       if (tip) tip.textContent = label[t]; };
